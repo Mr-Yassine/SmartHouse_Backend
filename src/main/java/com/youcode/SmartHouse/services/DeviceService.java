@@ -20,19 +20,21 @@ public class DeviceService {
         return this.deviceRepository.findAll();
     }
 
-    public Device addDevice(Device device) {
-        return null;
+    public Device getDeviceById(String id) {
+        return this.deviceRepository.findById(id).orElse(null);
     }
 
-    public Device updateDevice(Device device) {
-        return null;
+    public void addDevice(Device device) {
+        this.deviceRepository.save(device);
     }
 
-    public Device deleteDevice(Long id) {
-        return null;
+    public void updateDevice(Device device) {
+        this.deviceRepository.save(device);
     }
 
-    public Device getDeviceById(Long id) {
-        return null;
+    public void deleteDevice(String id) {
+        this.deviceRepository.deleteById(id);
     }
+
+
 }

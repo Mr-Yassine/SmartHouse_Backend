@@ -15,19 +15,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HouseService {
 
-    @Autowired
     private final HouseRepository houseRepository;
-    @Autowired
     private final UserService userService;
-    @Autowired
-    private final FloorService floorService;
 
     public List<House> getAllHouses(){
         return this.houseRepository.findAll();
     }
 
-    public Optional<House> getHouseById(Long id) {
-        return this.houseRepository.findById(id);
+    public House getHouseById(String id) {
+        return this.houseRepository.findById(id).orElse(null);
     }
 
     public House addHouse(House house) {
@@ -43,7 +39,8 @@ public class HouseService {
         this.houseRepository.save(house);
     }
 
-    public void deleteHouse(House house) {
-        this.houseRepository.delete(house);
+    public void deleteHouse(String id) {
+        this.houseRepository.deleteById(id);
     }
+
 }

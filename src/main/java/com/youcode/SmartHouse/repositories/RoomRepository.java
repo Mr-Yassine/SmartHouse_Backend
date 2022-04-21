@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RoomRepository extends MongoRepository<Room, Long> {
+public interface RoomRepository extends MongoRepository<Room, String> {
 }

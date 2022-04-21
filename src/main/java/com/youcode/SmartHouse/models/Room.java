@@ -2,23 +2,22 @@ package com.youcode.SmartHouse.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import java.util.List;
 
 @Data
 @Document
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomId;
+    private String roomId;
     private String room;
 
     @DBRef

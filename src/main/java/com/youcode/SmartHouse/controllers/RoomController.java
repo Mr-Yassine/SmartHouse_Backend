@@ -28,7 +28,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> fetchRoomById(@PathVariable("id") Long id){
+    public ResponseEntity<?> fetchRoomById(@PathVariable("id") String id){
         Room room = roomService.getRoomById(id);
         if (room != null) {
             return new ResponseEntity<Room>(room, HttpStatus.OK);
@@ -38,7 +38,7 @@ public class RoomController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addRoom(Room room){
+    public ResponseEntity<?> addRoom( @RequestBody Room room){
         roomService.addRoom(room);
         return new ResponseEntity<>("Room added successfully", HttpStatus.OK);
     }
@@ -49,11 +49,14 @@ public class RoomController {
         return new ResponseEntity<>("Room updated successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteRoom(Room room){
-        roomService.deleteRoom(room);
-        return new ResponseEntity<>("Room deleted successfully", HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable("id") String id){
+        try {
+            roomService.deleteRoom(id);
+            return new ResponseEntity<String>("Room with id: "+id+" is deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
 
 }

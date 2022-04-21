@@ -35,19 +35,20 @@ public class HouseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> fetchHouseById(@PathVariable("id") Long id){
-        Optional<House> house = houseService.getHouseById(id);
-        if (house.isPresent()) {
-            return new ResponseEntity<>(house.get(), HttpStatus.OK);
+    public ResponseEntity<?> fetchHouseById(@PathVariable("id") String id){
+        House house = houseService.getHouseById(id);
+        if (house != null) {
+            return new ResponseEntity<>(house, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No house is available", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addHouse(House house){
+    public ResponseEntity<?> addHouse(@RequestBody House house){
 
         User getUserData = userService.findById(house.getUser().getUserId());
+
         if(getUserData == null){
             return new ResponseEntity<>(house, HttpStatus.NOT_FOUND);
         }
@@ -57,17 +58,24 @@ public class HouseController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateHouse(House house){
-        houseService.updateHouse(house);
-        return new ResponseEntity<>("House updated", HttpStatus.OK);
+    public ResponseEntity<?> updateHouse(@RequestBody House house) {
+        try {
+            houseService.updateHouse(house);
+            return new ResponseEntity<House>(house, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteHouse(House house){
-        houseService.deleteHouse(house);
-        return new ResponseEntity<>("House deleted", HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteHouse(@PathVariable("id") String id) {
+        try {
+            houseService.deleteHouse(id);
+            return new ResponseEntity<String>("House with id: "+id+" is deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
 
 }
 

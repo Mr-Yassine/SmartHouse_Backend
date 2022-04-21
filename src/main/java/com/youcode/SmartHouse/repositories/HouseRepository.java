@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Map;
 
-public interface HouseRepository extends MongoRepository<House, Long> {
+public interface HouseRepository extends MongoRepository<House, String> {
 }

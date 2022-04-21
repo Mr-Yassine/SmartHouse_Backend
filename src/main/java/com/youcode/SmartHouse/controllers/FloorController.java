@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class FloorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> fetchFloorById(Long id){
+    public ResponseEntity<?> fetchFloorById(@PathVariable("id") String id){
         Floor floor = floorService.getFloorById(id);
         if (floor != null) {
             return new ResponseEntity<Floor>(floor, HttpStatus.OK);
@@ -37,7 +38,7 @@ public class FloorController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<?> addFloor(Floor floor){
+    public ResponseEntity<?> addFloor(@RequestBody Floor floor){
         floorService.addFloor(floor);
         return new ResponseEntity<>("Floor added", HttpStatus.OK);
     }
@@ -49,8 +50,12 @@ public class FloorController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteFloor(Long id){
-        floorService.deleteFloor(id);
-        return new ResponseEntity<>("Floor deleted", HttpStatus.OK);
+    public ResponseEntity<?> deleteFloor(@PathVariable("id") String id){
+        try {
+            floorService.deleteFloor(id);
+            return new ResponseEntity<String>("Floor with id: "+id+" is deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

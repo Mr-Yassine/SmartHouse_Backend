@@ -1,6 +1,7 @@
 package com.youcode.SmartHouse.controllers;
 
 import com.youcode.SmartHouse.models.Device;
+import com.youcode.SmartHouse.models.User;
 import com.youcode.SmartHouse.services.DeviceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class DeviceController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> fetchDeviceById(Long id){
+    public ResponseEntity<?> fetchDeviceById(@PathVariable("id") String id){
         Device device = deviceService.getDeviceById(id);
         if (device != null) {
             return new ResponseEntity<Device>(device, HttpStatus.OK);
@@ -37,31 +38,31 @@ public class DeviceController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addDevice(Device device){
-        Device newDevice = deviceService.addDevice(device);
-        if (newDevice != null) {
-            return new ResponseEntity<Device>(newDevice, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No device is available", HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> addDevice(@RequestBody Device device){
+        try {
+            deviceService.addDevice(device);
+            return new ResponseEntity<Device>(device, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateDevice(Device device){
-        Device updatedDevice = deviceService.updateDevice(device);
-        if (updatedDevice != null) {
-            return new ResponseEntity<Device>(updatedDevice, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No device is available", HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updateDevice(@RequestBody Device device){
+        try {
+            deviceService.updateDevice(device);
+            return new ResponseEntity<Device>(device, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteDevice(Long id){
-        Device deletedDevice = deviceService.deleteDevice(id);
-        if (deletedDevice != null) {
-            return new ResponseEntity<Device>(deletedDevice, HttpStatus.OK);
-        } else {
+    public ResponseEntity<?> deleteDevice(@PathVariable("id") String id){
+        try {
+            deviceService.deleteDevice(id);
+            return new ResponseEntity<String>("Device with id: "+id+" is deleted", HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>("No device is available", HttpStatus.NOT_FOUND);
         }
     }

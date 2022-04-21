@@ -13,14 +13,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
 
     public List<User> getAllUsers(){
         return this.userRepository.findAll();
     }
 
-    public User findById(Long id) {
+    public User findById(String id) {
         return this.userRepository.findById(id).orElse(null);
     }
 
@@ -32,7 +31,7 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         this.userRepository.deleteById(id);
     }
 }

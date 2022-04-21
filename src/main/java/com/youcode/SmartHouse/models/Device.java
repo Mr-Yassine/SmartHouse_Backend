@@ -1,24 +1,23 @@
 package com.youcode.SmartHouse.models;
 
+import com.youcode.SmartHouse.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 @Data
 @Document
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Device {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deviceId;
+    private String deviceId;
     private String device;
+    private Status status;
 
     @DBRef
     private Room room;

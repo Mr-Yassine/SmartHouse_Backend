@@ -1,8 +1,6 @@
 package com.youcode.SmartHouse.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -17,11 +15,11 @@ import java.util.List;
 @Data
 @Document
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
+@ToString
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private String userId;
     private String name;
     private String phone;
     @Indexed(unique = true)
